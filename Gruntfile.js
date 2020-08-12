@@ -110,29 +110,29 @@ module.exports = function(grunt) {
        }
      }
     },
-    'saucelabs-jasmine': {
-      all: {
-        options: {
-          urls: ["http://localhost:3000/"],
-          build: process.env.TRAVIS_JOB_ID,
-          throttled: 3,
-          testname: 'core',
-          browsers: [
-            {browserName: 'chrome'},
-            {browserName: 'firefox', platform: 'Windows 10'},
-            {browserName: 'safari', version: 7, platform: 'OS X 10.9'},
-            {browserName: 'safari', version: 6, platform: 'OS X 10.8'},
-            {browserName: 'internet explorer', version: 11, platform: 'Windows 10'},
-            {browserName: 'internet explorer', version: 10, platform: 'Windows 8'},
-            {browserName: 'internet explorer', version: 9, platform: 'Windows 7'},
-            {browserName: 'internet explorer', version: 8, platform: 'Windows 7'}
-          ],
-          sauceConfig: {
-            'video-upload-on-pass': false
-          }
-        }
-      }
-    },
+    // 'saucelabs-jasmine': {
+    //   all: {
+    //     options: {
+    //       urls: ["http://localhost:3000/"],
+    //       build: process.env.TRAVIS_JOB_ID,
+    //       throttled: 3,
+    //       testname: 'core',
+    //       browsers: [
+    //         {browserName: 'chrome'},
+    //         {browserName: 'firefox', platform: 'Windows 10'},
+    //         {browserName: 'safari', version: 7, platform: 'OS X 10.9'},
+    //         {browserName: 'safari', version: 6, platform: 'OS X 10.8'},
+    //         {browserName: 'internet explorer', version: 11, platform: 'Windows 10'},
+    //         {browserName: 'internet explorer', version: 10, platform: 'Windows 8'},
+    //         {browserName: 'internet explorer', version: 9, platform: 'Windows 7'},
+    //         {browserName: 'internet explorer', version: 8, platform: 'Windows 7'}
+    //       ],
+    //       sauceConfig: {
+    //         'video-upload-on-pass': false
+    //       }
+    //     }
+    //   }
+    // },
     jasmine: {
       options: {
         outfile: 'index.html',
@@ -275,7 +275,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-execute');
   grunt.loadNpmTasks('grunt-peg');
   grunt.loadNpmTasks('grunt-jasmine-nodejs');
-  grunt.loadNpmTasks('grunt-github-changes');
+  // grunt.loadNpmTasks('grunt-github-changes');
   grunt.loadNpmTasks('grunt-saucelabs');
 
   //--------------------------------------------------
@@ -292,7 +292,7 @@ module.exports = function(grunt) {
   grunt.registerTask('test',           ['build', 'jasmine:testProd', 'testCli', 'testNode', 'execute:testRhino', 'jasmine:coverage']);
 
   //sauce labs integration (browser testing)
-  grunt.registerTask('sauce',          process.env.SAUCE_ACCESS_KEY ? ['jasmine:testProd:build', 'connect:testServer', 'saucelabs-jasmine'] : []);
+  // grunt.registerTask('sauce',          process.env.SAUCE_ACCESS_KEY ? ['jasmine:testProd:build', 'connect:testServer', 'saucelabs-jasmine'] : []);
 
   //decide whether to run all tests or just the Node tests for Travis CI
   grunt.registerTask('travis',         (process.env.TEST === 'all') ? ['test', 'sauce'] : ['testNode', 'testCli']);
@@ -308,7 +308,7 @@ module.exports = function(grunt) {
 
   //release tasks
   grunt.registerTask('copyForRelease', ['clean:dist', 'copy', 'log:copyForRelease']);
-  grunt.registerTask('buildRelease',   ['test', 'githubChanges', 'copyForRelease']);
+  // grunt.registerTask('buildRelease',   ['test', 'githubChanges', 'copyForRelease']);
   grunt.registerTask('releasePatch',   ['bump-only:patch', 'buildRelease', 'bump-commit', 'log:release']);
   grunt.registerTask('releaseMinor',   ['bump-only:minor', 'buildRelease', 'bump-commit', 'log:release']);
   // major release should probably be done with care
